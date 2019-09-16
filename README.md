@@ -15,12 +15,20 @@ Populate the config file.
 
 ## Running
 
-```sh
-python main.py
-```
-
-## Tests
+### Collector
 
 ```sh
-pytest
+python collect.py
 ```
+
+### Web server
+
+**Debug**:
+
+```sh
+python server.py
+```
+
+**Production**:
+
+TODO

@@ -35,7 +35,7 @@ def get_levels(name: str) -> List[int]:
     return ranks
 
 
-def update(name: str, time: int) -> None:
+def update(name: str, time: float) -> None:
     with open('data.csv', 'a') as f:
         writer = csv.writer(f)
         levels = get_levels(name)
