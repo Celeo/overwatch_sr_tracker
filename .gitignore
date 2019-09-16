@@ -1,0 +1,7 @@
+data.csv
+config.json
+venv
+*.pyc
+__pycache__
+.mypy_cache
+.pytest_cache
