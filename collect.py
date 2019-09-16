@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_levels(name: str) -> List[int]:
-    logger.info(f'Fetching data for {name}')
+    logger.info('Fetching data')
     r = requests.get(f'https://playoverwatch.com/en-us/career/pc/{name}')
     if not r.status_code == 200:
         logger.error(f'Bad response r.status_code from URL')
@@ -21,7 +21,7 @@ def get_levels(name: str) -> List[int]:
     soup = BeautifulSoup(r.text, 'html.parser')
     rank_area = soup.find('div', class_='competitive-rank')
     if not rank_area:
-        logger.error(f'Could not find competitive rank HTML section for {name}')
+        logger.error(f'Could not find competitive rank HTML section for {name} - probably doesn\'t have profile set to public')
         return [0, 0, 0]
     ranks = []
     for role in ['Tank', 'Damage', 'Support']:
@@ -35,12 +35,12 @@ def get_levels(name: str) -> List[int]:
     return ranks
 
 
-def update(name: str) -> None:
+def update(name: str, time: int) -> None:
     with open('data.csv', 'a') as f:
         writer = csv.writer(f)
         levels = get_levels(name)
         writer.writerow([
-            datetime.now().timestamp(),
+            time,
             name,
             levels[0],
             levels[1],
@@ -57,10 +57,11 @@ def load_config(file_name: str = 'config.json') -> List[str]:
 
 
 def do_update() -> None:
+    time = datetime.now().timestamp()
     names = load_config()
     for name in names:
         logger.info(f'Updating data for {name}')
-        update(name)
+        update(name, time)
     logger.info('Done')
 
 
