@@ -14,12 +14,14 @@ def index():
 
 @app.route('/data')
 def get_data():
+    names = set()
     timeseries = set()
     data = {}
     with open('data.csv') as f:
         reader = csv.reader(f)
         for row in reader:
             name = row[1]
+            names.add(name)
             if name not in data:
                 data[name] = []
             data[name].append([row[2], row[3], row[4]])
@@ -37,7 +39,10 @@ def get_data():
                 display_name,
                 *values_for_role
             ))
-    return jsonify(columns=columns)
+    return jsonify(
+        columns=columns,
+        names=list(names)
+    )
 
 
 if __name__ == '__main__':
