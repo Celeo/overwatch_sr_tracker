@@ -39,6 +39,9 @@ def get_data():
                 display_name,
                 *values_for_role
             ))
+    for column in columns[:]:
+        if set(column[1:]) == {'0'}:
+            columns.remove(column)
     return jsonify(
         columns=columns,
         names=list(names)
