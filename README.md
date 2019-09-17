@@ -31,4 +31,6 @@ python server.py
 
 **Production**:
 
-TODO
+```sh
+./run_server.sh
+```
