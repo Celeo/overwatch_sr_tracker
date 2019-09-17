@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import Flask, render_template, jsonify
 
@@ -23,8 +23,9 @@ def get_data():
             if name not in data:
                 data[name] = []
             data[name].append([row[2], row[3], row[4]])
-            time = datetime.fromtimestamp(float(row[0])).strftime('%Y-%m-%d %H:%M:%S')
-            timeseries.add(time)
+            time = datetime.fromtimestamp(float(row[0]))
+            time = (time - timedelta(hours=7))
+            timeseries.add(time.strftime('%Y-%m-%d %H:%M:%S'))
     columns = [
         ['x', *timeseries]
     ]
