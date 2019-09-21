@@ -1,0 +1,22 @@
+[Unit]
+Description=Gunicorn
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+Restart=on-abnormal
+
+User=root
+Group=root
+
+WorkingDirectory=/srv/app
+ExecStart=/bin/bash /srv/app/run_server.sh
+ExecReload=/bin/kill -USR1 $MAINPID
+
+KillMode=mixed
+KillSignal=SIGQUIT
+TimeoutStopSec=5s
+
+[Install]
+WantedBy=multi-user.target
+
